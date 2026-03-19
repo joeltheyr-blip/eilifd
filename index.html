@@ -391,7 +391,7 @@
   <footer>
     <div class="foot-inner">
       <div><div class="foot-brand">Eilífð</div><p class="foot-tag">Hlutir sem lifa að eilífu. Við hjálpum þér að varðveita minningar þeirra sem þú elskar.</p></div>
-      <div><div class="foot-head">Vefurinn</div><ul class="foot-links"><li><a href="eilfd.html">Opna Eilífð</a></li></ul></div>
+      <div><div class="foot-head">Vefurinn</div><ul class="foot-links"><li><a href="index.html">Opna Eilífð</a></li></ul></div>
       <div><div class="foot-head">Aðstoð</div><ul class="foot-links"><li><a>Persónuvernd</a></li><li><a>Skilmálar</a></li></ul></div>
     </div>
     <div class="foot-bottom"><span>© 2025 Eilífð · Öll réttindi áskilin</span><span>Þróað á Íslandi ✦</span></div>
@@ -567,16 +567,10 @@
 <div id="toast">✓ <span id="toast-msg"></span></div>
 
 <script>
-// ════════════════════════════════════════
-//  STILLINGAR — breyttu hér
-// ════════════════════════════════════════
-const PASSCODE   = 'eilifð2025';   // ← Lykilorð til að breyta
-const DEMO_KEY   = 'eilifð_demo_v2';  // localStorage lykill
+const PASSCODE   = 'eilifð2025';
+const DEMO_KEY   = 'eilifð_demo_v2';
 const IMG_KEY    = 'eilifð_demo_imgs';
 
-// ════════════════════════════════════════
-//  GRUNNGÖGN (notuð ef engar vistuðar breytingar)
-// ════════════════════════════════════════
 const DEFAULT_DATA = {
   name: 'Eilífð',
   birthDate: '1. janúar 2026',
@@ -586,21 +580,18 @@ const DEFAULT_DATA = {
   birthPlace: '',
   deathPlace: '',
   coverPhoto: 'eilifd-logo.png',
-  profilePhoto: 'Eilífð-3.jpg',
+  profilePhoto: 'Eilifd-3.jpg',
   biography: 'Eilífð er staður þar sem minningar fá að lifa áfram í ró og virðingu. Hér skapast rými til að varðveita lífssögur, deila augnablikum og heiðra þá sem hafa haft áhrif á líf okkar. Við trúum því að hver manneskja skilji eftir sig spor sem eiga skilið að vera varðveitt og miðlað áfram til komandi kynslóða.\n\nMeð Eilífð verður til lifandi minningarsíða þar sem orð, myndir og tilfinningar tengjast á einn stað. Þannig geta fjölskylda og vinir komið saman, rifjað upp góðar stundir og haldið áfram að deila minningum sem skipta máli.\n\nMarkmið okkar er að skapa hlýlegt og öruggt umhverfi þar sem minningar fá að njóta sín og lifa áfram með þeim sem elska þær.',
   photos: [
     { id: 'p1', url: 'Ethereal Glacier Edge Poster.png', caption: '' },
     { id: 'p2', url: 'Elegant Tribute Poster Featuring Moss and Lava Stone.png', caption: '' },
-    { id: 'p3', url: "Elegant 'Eilífð' Poster with Gold Foil.png", caption: '' },
+    { id: 'p3', url: "Elegant 'Eilifd' Poster with Gold Foil.png", caption: '' },
     { id: 'p4', url: 'Vibrant Icelandic Waterfall Poster with Elegant Typography.png', caption: '' }
   ],
   videos: [],
   guestbook: []
 };
 
-// ════════════════════════════════════════
-//  STORAGE
-// ════════════════════════════════════════
 function getData() {
   try { const r = localStorage.getItem(DEMO_KEY); return r ? JSON.parse(r) : JSON.parse(JSON.stringify(DEFAULT_DATA)); }
   catch { return JSON.parse(JSON.stringify(DEFAULT_DATA)); }
@@ -618,9 +609,7 @@ function resolveImg(urlOrId) {
   if (urlOrId.startsWith('http')) return urlOrId;
   return urlOrId.split('/').map(s => encodeURIComponent(s)).join('/');
 }
-// ════════════════════════════════════════
-//  INDEXEDDB FOR VIDEOS
-// ════════════════════════════════════════
+
 const VIDEO_DB_NAME = 'eilifð_videos';
 const VIDEO_STORE   = 'blobs';
 let _videoDB = null;
@@ -680,9 +669,6 @@ function compressImage(dataUrl, maxWidth, quality, callback) {
   img.src = dataUrl;
 }
 
-// ════════════════════════════════════════
-//  STATE
-// ════════════════════════════════════════
 let currentPhotos = [];
 let editorPhotos  = [];
 let editorVideos  = [];
@@ -691,20 +677,14 @@ let editorProfileData = null;
 let toastTimer = null;
 let lbIndex = 0;
 
-// ════════════════════════════════════════
-//  RENDER MEMORIAL VIEW
-// ════════════════════════════════════════
 function renderMemorial() {
   const d = getData();
-
   document.getElementById('mem-cover-img').src = resolveImg(d.coverPhoto) || '';
   document.getElementById('mem-avatar').src    = resolveImg(d.profilePhoto) || '';
   document.getElementById('mem-name').textContent = d.name;
-  document.getElementById('mem-years').innerHTML =
-    `${d.birthYear || ''} <span>✦</span> ${d.deathYear || ''}`;
+  document.getElementById('mem-years').innerHTML = `${d.birthYear || ''} <span>✦</span> ${d.deathYear || ''}`;
   document.getElementById('mem-bio').textContent = d.biography || 'Engin ævisaga hefur verið skráð.';
 
-  // Photos
   currentPhotos = d.photos || [];
   const ph = document.getElementById('mem-photos');
   ph.innerHTML = currentPhotos.length === 0
@@ -715,7 +695,6 @@ function renderMemorial() {
           ${p.caption ? `<div class="photo-cap">${p.caption}</div>` : ''}
         </div>`).join('');
 
-  // Videos (async)
   const videos = d.videos || [];
   const vEl = document.getElementById('mem-videos');
   vEl.innerHTML = '';
@@ -727,7 +706,6 @@ function renderMemorial() {
     });
   }
 
-  // Meta
   const meta = document.getElementById('mem-meta');
   let mi = '';
   if (d.birthDate)  mi += `<li class="meta-item"><span class="meta-label">Fæðingardagur</span><span class="meta-value">${d.birthDate}</span></li>`;
@@ -737,10 +715,7 @@ function renderMemorial() {
   if (d.birthYear && d.deathYear) mi += `<li class="meta-item"><span class="meta-label">Aldur</span><span class="meta-value">${d.deathYear - d.birthYear} ár</span></li>`;
   meta.innerHTML = mi;
 
-  // Guestbook
   renderGuestbook(d);
-
-  // Candle
   renderCandle();
 }
 
@@ -777,33 +752,23 @@ function resetGB() {
   document.getElementById('gb-thanks').style.display    = 'none';
 }
 
-// ════════════════════════════════════════
-//  PASSCODE
-// ════════════════════════════════════════
 function openPasscodeModal() {
   document.getElementById('pc-input').value = '';
   document.getElementById('pc-err').style.display = 'none';
   document.getElementById('passcode-modal').style.display = 'flex';
   setTimeout(() => document.getElementById('pc-input').focus(), 100);
 }
-function closePasscodeModal() {
-  document.getElementById('passcode-modal').style.display = 'none';
-}
+function closePasscodeModal() { document.getElementById('passcode-modal').style.display = 'none'; }
 function checkPasscode() {
   const val = document.getElementById('pc-input').value;
-  if (val === PASSCODE) {
-    closePasscodeModal();
-    openEditor();
-  } else {
+  if (val === PASSCODE) { closePasscodeModal(); openEditor(); }
+  else {
     document.getElementById('pc-err').style.display = 'block';
     document.getElementById('pc-input').value = '';
     document.getElementById('pc-input').focus();
   }
 }
 
-// ════════════════════════════════════════
-//  EDITOR
-// ════════════════════════════════════════
 function openEditor() {
   const d = getData();
   editorPhotos      = [...(d.photos || [])];
@@ -819,7 +784,6 @@ function openEditor() {
   setDatePickerValue('dp-birth', d.birthDate || '');
   setDatePickerValue('dp-death', d.deathDate || '');
 
-  // Cover preview
   if (d.coverPhoto) {
     const src = resolveImg(d.coverPhoto);
     const cp = document.getElementById('cover-preview');
@@ -831,7 +795,6 @@ function openEditor() {
     document.getElementById('cover-crop-hint').style.display = 'none';
   }
 
-  // Profile preview
   if (d.profilePhoto) {
     const src = resolveImg(d.profilePhoto);
     const pp = document.getElementById('profile-preview');
@@ -847,22 +810,16 @@ function openEditor() {
   Promise.all(editorVideos.map(v => resolveVideoURL(v.url))).then(() => renderEditorVideos());
   renderPendingInEditor(d);
   renderApprovedInEditor(d);
-
   showPage('page-editor');
 }
 
-function exitEditor() {
-  renderMemorial();
-  showPage('page-memorial');
-}
+function exitEditor() { renderMemorial(); showPage('page-memorial'); }
 
 function saveMemorial() {
   const name = document.getElementById('e-name').value.trim();
   if (!name) { showToast('Nafn vantar', 'err'); return; }
-
   const birth = getDatePickerValue('dp-birth');
   const death = getDatePickerValue('dp-death');
-
   const d = getData();
   d.name        = name;
   d.birthDate   = birth.text;
@@ -876,24 +833,17 @@ function saveMemorial() {
   d.profilePhoto = editorProfileData || d.profilePhoto;
   d.photos      = editorPhotos;
   d.videos      = editorVideos;
-
   if (!saveData(d)) { showToast('Ekki nóg pláss í vafra', 'err'); return; }
   showToast('Vista tókst ✓');
   exitEditor();
 }
 
-// Pending guestbook in editor
 function renderPendingInEditor(d) {
   const data    = d || getData();
   const pending = (data.guestbook || []).filter(g => !g.approved);
   const el      = document.getElementById('pending-entries-ed');
   const np      = document.getElementById('no-pending');
-
-  if (pending.length === 0) {
-    el.innerHTML = '';
-    np.style.display = 'block';
-    return;
-  }
+  if (pending.length === 0) { el.innerHTML = ''; np.style.display = 'block'; return; }
   np.style.display = 'none';
   el.innerHTML = pending.map(g =>
     `<div style="padding:14px;background:white;border:1px solid var(--gold-light);border-radius:var(--radius-lg);background:#fffdf6;">
@@ -913,22 +863,19 @@ function approveEntry(id) {
   const d = getData();
   const ei = (d.guestbook || []).findIndex(g => g.id === id);
   if (ei >= 0) { d.guestbook[ei].approved = true; saveData(d); }
-  renderPendingInEditor(d);
-  renderApprovedInEditor(d);
+  renderPendingInEditor(d); renderApprovedInEditor(d);
   showToast('Skilaboð samþykkt');
 }
 function rejectEntry(id) {
   const d = getData();
   d.guestbook = (d.guestbook || []).filter(g => g.id !== id);
-  saveData(d);
-  renderPendingInEditor(d);
+  saveData(d); renderPendingInEditor(d);
   showToast('Skilaboð hafnað');
 }
 function deleteEntry(id) {
   const d = getData();
   d.guestbook = (d.guestbook || []).filter(g => g.id !== id);
-  saveData(d);
-  renderApprovedInEditor(d);
+  saveData(d); renderApprovedInEditor(d);
   showToast('Skilaboð eytt');
 }
 function renderApprovedInEditor(d) {
@@ -937,11 +884,7 @@ function renderApprovedInEditor(d) {
   const el = document.getElementById('approved-entries-ed');
   const np = document.getElementById('no-approved-ed');
   if (!el) return;
-  if (approved.length === 0) {
-    el.innerHTML = '';
-    np.style.display = 'block';
-    return;
-  }
+  if (approved.length === 0) { el.innerHTML = ''; np.style.display = 'block'; return; }
   np.style.display = 'none';
   el.innerHTML = approved.map(g =>
     `<div style="padding:14px;background:white;border:1px solid var(--stone-pale);border-radius:var(--radius-lg);">
@@ -954,9 +897,6 @@ function renderApprovedInEditor(d) {
     </div>`).join('');
 }
 
-// ════════════════════════════════════════
-//  PHOTOS IN EDITOR
-// ════════════════════════════════════════
 function renderEditorVideos() {
   const el = document.getElementById('e-videos-list');
   if (!el) return;
@@ -1024,9 +964,6 @@ function handleGalleryUpload(input) {
   reader.readAsDataURL(file);
 }
 
-// ════════════════════════════════════════
-//  UPLOAD PREVIEWS
-// ════════════════════════════════════════
 function showUploadPreview(type, src) {
   const p = document.getElementById(type + '-preview');
   const ph = document.getElementById(type + '-placeholder');
@@ -1040,9 +977,6 @@ function resetUploadPreview(type) {
   if (ph) ph.style.display = 'flex';
 }
 
-// ════════════════════════════════════════
-//  COVER CROP
-// ════════════════════════════════════════
 let coverCropState = { dragging: false, startX: 0, startY: 0, x: 0, y: 0, zoom: 100, naturalW: 0, naturalH: 0 };
 
 function openCoverCropModal(input) {
@@ -1101,7 +1035,6 @@ function applyCoverCrop() {
   showToast('Forsíðumynd stillt');
 }
 
-// Drag cover crop
 const coverCropImg = document.getElementById('cover-crop-img');
 coverCropImg.addEventListener('mousedown', e => { coverCropState.dragging = true; coverCropState.startX = e.clientX - coverCropState.x; coverCropState.startY = e.clientY - coverCropState.y; e.preventDefault(); });
 coverCropImg.addEventListener('touchstart', e => { const t = e.touches[0]; coverCropState.dragging = true; coverCropState.startX = t.clientX - coverCropState.x; coverCropState.startY = t.clientY - coverCropState.y; e.preventDefault(); }, { passive: false });
@@ -1110,9 +1043,6 @@ document.addEventListener('touchmove', e => { if (!coverCropState.dragging) retu
 document.addEventListener('mouseup', () => coverCropState.dragging = false);
 document.addEventListener('touchend', () => coverCropState.dragging = false);
 
-// ════════════════════════════════════════
-//  PROFILE CROP
-// ════════════════════════════════════════
 let cropState = { dragging: false, startX: 0, startY: 0, x: 0, y: 0, zoom: 100, naturalW: 0, naturalH: 0 };
 
 function openCropModal(input) {
@@ -1171,7 +1101,6 @@ function applyCrop() {
   showToast('Prófílmynd stillt');
 }
 
-// Drag profile crop
 const cropImg = document.getElementById('crop-img');
 cropImg.addEventListener('mousedown', e => { cropState.dragging = true; cropState.startX = e.clientX - cropState.x; cropState.startY = e.clientY - cropState.y; e.preventDefault(); });
 cropImg.addEventListener('touchstart', e => { const t = e.touches[0]; cropState.dragging = true; cropState.startX = t.clientX - cropState.x; cropState.startY = t.clientY - cropState.y; e.preventDefault(); }, { passive: false });
@@ -1180,14 +1109,9 @@ document.addEventListener('touchmove', e => { if (!cropState.dragging) return; c
 document.addEventListener('mouseup', () => cropState.dragging = false);
 document.addEventListener('touchend', () => cropState.dragging = false);
 
-// ════════════════════════════════════════
-//  LIGHTBOX
-// ════════════════════════════════════════
 function openLightbox(idx) {
-  lbIndex = idx;
-  updateLightbox();
-  const lb = document.getElementById('lightbox');
-  lb.style.display = 'flex';
+  lbIndex = idx; updateLightbox();
+  document.getElementById('lightbox').style.display = 'flex';
   document.addEventListener('keydown', lbKeyHandler);
 }
 function closeLightbox() {
@@ -1212,13 +1136,8 @@ function updateLightbox() {
   document.querySelector('.lb-prev').style.display = currentPhotos.length > 1 ? '' : 'none';
   document.querySelector('.lb-next').style.display = currentPhotos.length > 1 ? '' : 'none';
 }
-
-// Close lightbox on background click
 document.getElementById('lightbox').addEventListener('click', e => { if (e.target === document.getElementById('lightbox')) closeLightbox(); });
 
-// ════════════════════════════════════════
-//  CANDLE
-// ════════════════════════════════════════
 const CANDLE_KEY  = 'eilifð_demo_candle';
 const TWO_WEEKS   = 14 * 24 * 60 * 60 * 1000;
 
@@ -1299,9 +1218,6 @@ function toggleCandle() {
   showToast('Kertið þitt er kveikt 🕯️');
 }
 
-// ════════════════════════════════════════
-//  DATE PICKERS
-// ════════════════════════════════════════
 const IS_MONTHS = ['Janúar','Febrúar','Mars','Apríl','Maí','Júní','Júlí','Ágúst','September','Október','Nóvember','Desember'];
 
 function buildDatePicker(containerId, initialDay, initialMonth, initialYear) {
@@ -1342,18 +1258,12 @@ function setDatePickerValue(containerId, dateStr) {
   buildDatePicker(containerId, day, month, year);
 }
 
-// ════════════════════════════════════════
-//  NAVIGATION
-// ════════════════════════════════════════
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ════════════════════════════════════════
-//  TOAST
-// ════════════════════════════════════════
 function showToast(msg, type) {
   const t = document.getElementById('toast');
   document.getElementById('toast-msg').textContent = msg;
@@ -1362,9 +1272,6 @@ function showToast(msg, type) {
   toastTimer = setTimeout(() => t.className = '', 3200);
 }
 
-// ════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════
 renderMemorial();
 </script>
 </body>
