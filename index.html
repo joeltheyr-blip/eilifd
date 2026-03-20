@@ -90,7 +90,7 @@
   .mem-cover-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.62)); }
   .cover-nav { position: absolute; top: 80px; left: 0; right: 0; display: flex; justify-content: flex-end; padding: 0 24px; }
   .cover-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 32px 36px; max-width: 1080px; margin: 0 auto; }
-  .cover-avatar { width: 90px; height: 90px; border-radius: 50%; border: 4px solid white; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.3); background: var(--moss); margin-bottom: 14px; }
+  .cover-avatar { width: 90px; height: 90px; border-radius: 50%; border: 4px solid white; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.3); background: var(--moss); margin-bottom: 14px; margin-top: 40px; }
   .cover-avatar img { width: 100%; height: 100%; object-fit: cover; }
   .cover-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 300; color: white; letter-spacing: 0.04em; text-shadow: 0 2px 12px rgba(0,0,0,0.4); margin-bottom: 5px; }
   .cover-years { color: rgba(255,255,255,0.7); font-size: 0.88rem; letter-spacing: 0.18em; }
@@ -349,13 +349,13 @@
               <div class="candle-svg-wrap">
                 <div class="candle-lit-glow" id="candle-glow" style="display:none;"></div>
                 <svg class="candle-svg" viewBox="0 0 24 80" xmlns="http://www.w3.org/2000/svg">
-                  <g id="candle-flame-g" style="display:none;" transform="translate(12,18)">
-                    <circle class="flame-glow" cx="0" cy="-8" r="18" fill="rgba(255,160,0,0.15)"/>
+                  <g id="candle-flame-g" style="display:none;" transform="translate(12,21)">
+                    <circle class="flame-glow" cx="0" cy="-6" r="14" fill="rgba(255,160,0,0.15)"/>
                     <path class="flame-main" d="M0,0 C0,0 7,-6 4,-14 C10,-8 11,2 7,6 C10,3 8,9 0,10 C-8,9 -10,3 -7,6 C-11,2 -10,-8 -4,-14 C-7,-6 0,0 0,0Z" fill="url(#flameGradD)" transform-origin="0 5"/>
                     <ellipse class="flame-inner" cx="0" cy="-4" rx="3" ry="6" fill="rgba(255,255,200,0.9)" transform-origin="0 0"/>
                     <circle cx="0" cy="1" r="1.5" fill="#333"/>
                   </g>
-                  <line id="candle-wick-unlit" x1="12" y1="10" x2="12" y2="18" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
+                  <line id="candle-wick-unlit" x1="12" y1="12" x2="12" y2="20" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
                   <ellipse cx="8" cy="22" rx="2" ry="1" fill="#f5f0e8" id="drip1" class="wax-drip" style="display:none;"/>
                   <ellipse cx="17" cy="23" rx="1.5" ry="1" fill="#f5f0e8" id="drip2" class="wax-drip" style="display:none;"/>
                   <rect x="5" y="20" width="14" height="52" rx="2" fill="url(#waxGradD)"/>
